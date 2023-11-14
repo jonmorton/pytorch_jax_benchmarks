@@ -2,6 +2,8 @@ import equinox as eqx
 import jax
 from common import Bench
 
+jax.default_matmul_precision("tensorfloat32")
+
 
 @eqx.filter_jit
 @eqx.filter_value_and_grad(has_aux=True)
@@ -42,9 +44,10 @@ class Resnet50(JaxBench):
 
 
 class SelfAttn(JaxBench):
-    def __init__(self, dim, seq_len):
+    def __init__(self, dim, seq_len, dtype=jax.numpy.float32):
         self.dim = dim
         self.seq_len = seq_len
+        self.dtype = dtype
 
     def setup(self, batch_size):
         from jax_transformer import CausalSelfAttention
@@ -53,7 +56,7 @@ class SelfAttn(JaxBench):
         self.input = jax.random.normal(
             jax.random.PRNGKey(42),
             (batch_size, self.seq_len, self.dim),
-            dtype=jax.numpy.float32,
+            dtype=self.dtype,
         )
 
     def run(self):
@@ -63,6 +66,7 @@ class SelfAttn(JaxBench):
 
 JAX_BENCHES = {
     "resnet50": Resnet50,
-    "attn_seq1024_dim512": lambda: SelfAttn(1024, 512),
-    "attn_seq2048_dim256": lambda: SelfAttn(2048, 256),
+    "attn_seq1024_dim512_tf32": lambda: SelfAttn(1024, 512),
+    "attn_seq2048_dim256_tf32": lambda: SelfAttn(2048, 256),
+    "attn_seq1024_dim512_f16": lambda: SelfAttn(1024, 512, jax.numpy.float16),
 }

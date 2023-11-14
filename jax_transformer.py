@@ -36,7 +36,7 @@ class CausalSelfAttention(eqx.Module):
 
     def __call__(self, x):
         seq_len = x.shape[-2]
-        qkv = x @ self.Wqkv
+        qkv = x @ self.Wqkv.astype(x.dtype)
         qkv = jnp.reshape(qkv, (-1, 3, self.nhead, self.dim_head))
         qkv = jnp.swapaxes(qkv, 0, 2)  # (nhead, 3, seq, dim_head)
         q, k, v = [lax.index_in_dim(qkv, i, -3, keepdims=False) for i in range(3)]
@@ -51,5 +51,5 @@ class CausalSelfAttention(eqx.Module):
             jnp.swapaxes(attn_outs, 0, 1), (-1, self.nhead * self.dim_head)
         )
 
-        proj_out = attn_outs @ self.Wout
-        return proj_out + self.bias
+        proj_out = attn_outs @ self.Wout.astype(attn_outs.dtype)
+        return proj_out + self.bias.astype(proj_out.dtype)
