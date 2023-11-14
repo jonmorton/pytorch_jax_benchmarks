@@ -8,23 +8,23 @@ Results on my setup (YMMV, the many benchmarking caveats apply):
 ```
 attn_seq1024_dim512_f16
 -----------------------
-pytorch:  5.5ms ± 0.61ms p90=6.6ms
-jax:      6.1ms ± 0.44ms p90=6.6ms
+pytorch:  9.5ms ± 0.20ms p90=9.7ms
+jax:     11.5ms ± 0.72ms p90=12.1ms
 
 attn_seq1024_dim512_tf32
 ------------------------
-pytorch: 10.0ms ± 0.34ms p90=10.3ms
-jax:     12.4ms ± 1.34ms p90=14.5ms
+pytorch: 19.6ms ± 1.60ms p90=20.6ms
+jax:     23.0ms ± 2.20ms p90=26.5ms
 
 attn_seq2048_dim256_tf32
 ------------------------
-pytorch: 13.8ms ± 1.93ms p90=16.9ms
-jax:     14.4ms ± 1.62ms p90=16.9ms
+pytorch: 23.6ms ± 0.99ms p90=23.8ms
+jax:     25.7ms ± 2.22ms p90=29.7ms
 
 resnet50
 --------
-pytorch: 32.9ms ± 0.30ms p90=33.1ms
-jax:     38.2ms ± 8.42ms p90=43.6ms
+pytorch: 58.5ms ± 2.89ms p90=61.6ms
+jax:     62.2ms ± 6.87ms p90=64.1ms
 ```
 
 Note: attention impl is from scratch (both in a similar manner), not using any built-in modules, to make this a test of the compiler and not the library.

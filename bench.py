@@ -80,7 +80,7 @@ def get_argument_parser():
     parser.add_argument("--warmup", "-w", default=10)
     parser.add_argument("--iters", "-i", default=100)
     parser.add_argument("--cycles", "-c", default=5)
-    parser.add_argument("--batch_size", "-n", default=16)
+    parser.add_argument("--batch_size", "-n", default=32)
     return parser
 
 
