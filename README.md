@@ -16,3 +16,5 @@ Results on my setup (YMMV):
     pytorch: 37.6ms±2.96ms
     jax: 40.8ms±8.66ms
 ```
+
+Note: attention impl is from scratch, not using any built-in modules, to make this a test of the compiler and not the library.
