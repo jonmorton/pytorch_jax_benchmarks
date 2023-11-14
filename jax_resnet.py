@@ -74,7 +74,13 @@ class _ResNetBasicBlock(eqx.nn.StatefulLayer):
             self.downsample = nn.Identity()
         self.stride = stride
 
-    def __call__(self, x: Array, state: nn.State) -> Array:
+    def __call__(
+        self,
+        x: Array,
+        state: nn.State,
+        *,
+        key: Optional["jax.random.PRNGKey"] = None,
+    ) -> Array:
         out = self.conv1(x)
         out, state = self.bn1(out, state)
         out = self.relu(out)
@@ -134,7 +140,13 @@ class _ResNetBottleneck(eqx.nn.StatefulLayer):
             self.downsample = nn.Identity()
         self.stride = stride
 
-    def __call__(self, x: Array, state: nn.State):
+    def __call__(
+        self,
+        x: Array,
+        state: nn.State,
+        *,
+        key: Optional["jax.random.PRNGKey"] = None,
+    ):
         out = self.conv1(x)
         out, state = self.bn1(out, state)
         out = self.relu(out)
