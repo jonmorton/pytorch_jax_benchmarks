@@ -1,5 +1,8 @@
 Comparing GPU performance of jax and torch.compile on some standard ML models/layers. Mostly for fun.
 
+The benchmark does a full forward + backward pass, and enables tensorfloat32 matmuls for both frameworks.
+Each forward+backward is fully synchronized.
+
 Results on my setup (YMMV):
 
 ```
